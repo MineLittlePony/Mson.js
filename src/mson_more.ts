@@ -1,21 +1,9 @@
 import { Mson } from './mson_loader';
 import { objUtils } from './obj_utils';
+import { fixedLength } from './fixtures';
 //=====================================================//
 //                 Mson specific
 (_ => {
-  function fixedLength(arr, len, fillWith) {
-    if (fillWith === undefined) {
-      fillWith = 0;
-    }
-    if (typeof arr === 'number') {
-      return fixedLength([], len, arr);
-    }
-    while (arr.length < len) {
-      arr.push(fillWith);
-    }
-    return arr;
-  }
-
   Mson.addElementType('mson:plane', (loader, body, locals, model) => {
     return {
       position: locals.array(fixedLength(body.position, 3)),

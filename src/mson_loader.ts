@@ -103,7 +103,7 @@ export const Mson = (_ => {
       if (!files[fileName]) {
         throw new Error(`Missing file '${fileName}'`)
       }
-      return files[filename]
+      return files[fileName]
     }
 
     return {

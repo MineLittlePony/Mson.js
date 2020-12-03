@@ -1,20 +1,9 @@
 import { Mson } from './mson_loader';
 import { objUtils } from './obj_utils';
+import { fixedLength } from './fixtures';
 //=====================================================//
 //                 The base types
 (_ => {
-  function fixedLength(arr, len, fillWith) {
-    if (fillWith === undefined) {
-      fillWith = 0;
-    }
-    if (typeof arr === 'number') {
-      return fixedLength([], len, arr);
-    }
-    while (arr.length < len) {
-      arr.push(fillWith);
-    }
-    return arr;
-  }
   function present(a) {
     return !!a;
   }
@@ -40,7 +29,7 @@ import { objUtils } from './obj_utils';
       texture: locals.obj(loader.getTexture(body.texture, model.texture)),
       children: loadChildren(body.children),
       cubes: body.cubes ? body.cubes
-          .map(cube => loader.getElement(child, 'mson:box', model, defineName))
+          .map(cube => loader.getElement(cube, 'mson:box', model, locals, defineName))
           .filter(present) : []
     };
     if (body.name) {
@@ -48,7 +37,7 @@ import { objUtils } from './obj_utils';
     }
     function loadChildren(children) {
       return children ? objUtils.map(children,
-        value => loader.getElement(value, 'mson:compound', model, defineName),
+        value => loader.getElement(value, 'mson:compound', model, locals, defineName),
         Array.isArray(children) ? (key => `unnamed_member_${key}`) : (key => key)
       ) : {};
     }
