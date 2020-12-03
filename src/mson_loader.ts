@@ -1,5 +1,5 @@
-// import { Incomplete } from './incomplete';
-// import { objUtils } from './obj_utils';
+import { Incomplete } from './incomplete';
+import { objUtils } from './obj_utils';
 /**
  * The core of Mson's model loading functionality.
  *
@@ -15,7 +15,7 @@
  *  // TODO: rendering stuff.
  * });
  */
-/*export*/ const Mson = (_ => {
+export const Mson = (_ => {
   const reservedKeys = 'parent;locals;texture;scale'.split(';');
   const defaultTexture = createTexture([0, 0, 64, 32]);
 

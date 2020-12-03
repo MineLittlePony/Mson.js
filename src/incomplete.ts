@@ -1,4 +1,4 @@
-/*export*/ const Incomplete = (_ => {
+export const Incomplete = (_ => {
   const funcs = {
     '+': (one, two) => one + two,
     '-': (one, two) => one - two,

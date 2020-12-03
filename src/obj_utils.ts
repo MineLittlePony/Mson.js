@@ -1,4 +1,4 @@
-/*export*/ const objUtils = {
+export const objUtils = {
   /**
    * Converts the values of an object into another form.
    *
