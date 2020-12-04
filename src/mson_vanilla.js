@@ -25,7 +25,7 @@
       offset: locals.array(fixedLength(body.offset, 3)),
       rotate: locals.array(fixedLength(body.rotate, 3)),
       mirror: fixedLength(body.mirror, 3, false),
-      visible: body.visible === true,
+      visible: body.visible !== false,
       texture: locals.obj(loader.getTexture(body.texture, model.texture)),
       children: loadChildren(body.children),
       cubes: body.cubes ? body.cubes
