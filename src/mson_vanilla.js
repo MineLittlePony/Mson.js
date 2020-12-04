@@ -16,7 +16,7 @@
       stretch: fixedLength(body.stretch, 3),
       mirror: body.mirror
     };
-  }, (parent, context) => {
+  }, function(parent, context) {
     // TODO: rendering
   });
   Mson.addElementType('mson:compound', (loader, body, locals, model, defineName) => {
@@ -43,7 +43,7 @@
     }
 
     return element;
-  }, (parent, context) => {
+  }, function(parent, context) {
     if (!this.visible) {
       return;
     }
