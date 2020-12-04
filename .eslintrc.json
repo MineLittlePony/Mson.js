@@ -15,5 +15,9 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "semi": ["error", "always"],
+    "no-extra-semi": "warn",
+    "indent": ["warn", 2],
+    "space-before-function-paren": ["warn", "never"]
   }
 }
