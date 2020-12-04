@@ -2,12 +2,15 @@
 <html lang="en">
 	<head>
 		<meta content="text/html; charset=utf-8" http-equiv="Content-type">
+		<script src="https://unpkg.com/three" crossorigin="anonymous"></script>
 		<script type="text/javascript" src="../src/obj_utils.js"></script>
+		<script type="text/javascript" src="../src/render/vector_utils.js"></script>
 		<script type="text/javascript" src="../src/incomplete.js"></script>
 		<script type="text/javascript" src="../src/mson_loader.js"></script>
 		<script type="text/javascript" src="../src/fixtures.js"></script>
 		<script type="text/javascript" src="../src/mson_vanilla.js"></script>
 		<script type="text/javascript" src="../src/mson_more.js"></script>
+		<script type="text/javascript" src="../src/render/mson_canvas.js"></script>
 		<style>
 			html, body {
 				height: 100%;
@@ -20,6 +23,9 @@
 				display: flex;
 				flex-direction: column;
 			}
+			.cols {
+				flex-direction: row;
+			}
 			textarea {
 				flex-grow: 1;
 			}
@@ -31,13 +37,21 @@
 			<textarea id="model_input"></textarea>
 			<button id="add_model">Add File</button>
 			<button id="get_model">Get Model</button>
-			<textarea id="output"></textarea>
+			<div class="cols">
+				<textarea id="output"></textarea>
+				<div id="canvas_area"></div>
+			</div>
 		</div>
 		<script type="text/javascript">
 const modelNameIn = document.body.querySelector('#model_name');
 const input = document.body.querySelector('#model_input');
 const output = document.body.querySelector('#output');
 let loader = Mson.createLoader();
+let renderer = MsonCanvas.createRenderer(500, 500);
+renderer.bindTexture('/steve_pony.png');
+
+document.querySelector('#canvas_area').insertAdjacentElement('afterbegin', renderer.getElement());
+
 function handled(func) {
 	try {
 		func();
@@ -50,7 +64,16 @@ document.body.querySelector('#add_model').addEventListener('click', () => {
 	handled(() => loader.addFile(modelNameIn.value, input.value));
 });
 document.body.querySelector('#get_model').addEventListener('click', () => {
-	handled(() => output.value = JSON.stringify(loader.getModel(modelNameIn.value), null, '  '));
+	handled(() => {
+		const model = loader.getModel(modelNameIn.value);
+		output.value = JSON.stringify(model, null, '  ');
+		
+		renderer.reset();
+
+		const buffer = renderer.getBuffer();
+		model.render(buffer);
+		buffer.render();
+	});
 });
 // Damn coRs
 // fetch('input.json').then(a => a.text()).then(a => input.value = a);

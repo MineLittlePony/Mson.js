@@ -1,5 +1,6 @@
 // import { Mson } from './mson_loader';
 // import { objUtils } from './obj_utils';
+// import { VectorUtils } from './render/vector_utils';
 // import { fixedLength } from './fixtures';
 //=====================================================//
 //                 The base types
@@ -17,7 +18,10 @@
       mirror: body.mirror
     };
   }, function(parent, context) {
-    // TODO: rendering
+    context.cube(
+      VectorUtils.add(this.from, VectorUtils.scale(this.stretch, -1)),
+      VectorUtils.add(this.size, VectorUtils.scale(this.stretch, 2)),
+      this.texture || parent.texture, this.mirror);
   });
   Mson.addElementType('mson:compound', (loader, body, locals, model, defineName) => {
     const element = {
@@ -44,13 +48,15 @@
 
     return element;
   }, function(parent, context) {
+    console.log(this);
     if (!this.visible) {
+      console.log('skip render compound');
       return;
     }
 
-    // TODO: rendering
-
-    Object.values(this.children).forEach(child => child.render(this, context));
-    this.cubes.forEach(cube => cube.render(this, context));
+    context.transform(this.offset, this.center, this.rotate, sub => {
+      Object.values(this.children).forEach(child => child.render(this, sub));
+      this.cubes.forEach(cube => cube.render(this, sub));
+    });
   });
 })();
