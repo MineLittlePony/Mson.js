@@ -34,12 +34,18 @@
 	<body>
 		<div>
 			<input id="model_name" type="text"></input>
-			<textarea id="model_input"></textarea>
-			<button id="add_model">Add File</button>
-			<button id="get_model">Get Model</button>
 			<div class="cols">
+				<textarea id="model_input"></textarea>
 				<textarea id="output"></textarea>
+			</div>
+			<div class="cols">
+				<img id="texture" src="steve_pony.png"></img>
+				
 				<div id="canvas_area"></div>
+			</div>
+			<div class="cols">
+				<button id="add_model">Add File</button>
+				<button id="get_model">Get Model</button>
 			</div>
 		</div>
 		<script type="text/javascript">
@@ -48,7 +54,7 @@ const input = document.body.querySelector('#model_input');
 const output = document.body.querySelector('#output');
 let loader = Mson.createLoader();
 let renderer = MsonCanvas.createRenderer(500, 500);
-renderer.bindTexture('/steve_pony.png');
+renderer.bindTexture(document.body.querySelector('#texture'));
 
 document.querySelector('#canvas_area').insertAdjacentElement('afterbegin', renderer.getElement());
 

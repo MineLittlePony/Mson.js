@@ -20,7 +20,7 @@
   }, function(parent, context) {
     context.cube(
       VectorUtils.add(this.from, VectorUtils.scale(this.stretch, -1)),
-      VectorUtils.add(this.size, VectorUtils.scale(this.stretch, 2)),
+      VectorUtils.add(this.size, VectorUtils.scale(this.stretch, 1)),
       this.texture || parent.texture, this.mirror);
   });
   Mson.addElementType('mson:compound', (loader, body, locals, model, defineName) => {
@@ -48,13 +48,12 @@
 
     return element;
   }, function(parent, context) {
-    console.log(this);
     if (!this.visible) {
       console.log('skip render compound');
       return;
     }
 
-    context.transform(this.offset, this.center, this.rotate, sub => {
+    context.group(this.offset, this.center, this.rotate, sub => {
       Object.values(this.children).forEach(child => child.render(this, sub));
       this.cubes.forEach(cube => cube.render(this, sub));
     });
